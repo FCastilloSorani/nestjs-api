@@ -27,7 +27,7 @@ export class AuthService {
 
   constructor(private readonly jwtService: JwtService) {}
 
-  async signin(authCredentialsDto: AuthCredentialsDto) {
+  async signin(authCredentialsDto: AuthCredentialsDto): Promise<string> {
     const { username, password } = authCredentialsDto;
 
     const found = this.users.find(
