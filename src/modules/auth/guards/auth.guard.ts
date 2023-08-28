@@ -16,6 +16,7 @@ import { FastifyRequest } from 'fastify';
 
 // Models
 import { JwtPayload } from '../models/jwt-payload.model';
+import { User } from '@auth/models/user.model';
 
 // Reflector
 import { Reflector } from '@nestjs/core';
@@ -48,7 +49,12 @@ export class AuthGuard implements CanActivate {
         secret: jwtConfig.secret,
       });
 
-      request['user'] = payload;
+      const user: User = {
+        id: payload.sub,
+        username: payload.username,
+      };
+
+      request['user'] = user;
     } catch {
       throw new UnauthorizedException();
     }
