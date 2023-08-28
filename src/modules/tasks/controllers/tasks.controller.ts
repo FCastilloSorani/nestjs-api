@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 
 // DTOs
@@ -35,7 +36,7 @@ export class TasksController {
   }
 
   @Get('/:id')
-  async getById(@Param('id') id: string): Promise<Task> {
+  async getById(@Param('id', ParseUUIDPipe) id: string): Promise<Task> {
     return this.tasksService.getById(id);
   }
 
@@ -48,7 +49,7 @@ export class TasksController {
   // PATCHS
   @Patch('/:id/status')
   async updateTaskSatus(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
   ): Promise<Task> {
     const { status } = updateTaskStatusDto;
@@ -57,7 +58,7 @@ export class TasksController {
 
   // DELETES
   @Delete('/:id')
-  async deleteTask(@Param('id') id: string): Promise<void> {
+  async deleteTask(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.tasksService.deleteTask(id);
   }
 }
